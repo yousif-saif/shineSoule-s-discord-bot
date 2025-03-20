@@ -27,7 +27,6 @@ async def on_ready():
 async def have_correct_role(ctx: commands.Context):
     role_id = 1351266858841538560
     role = ctx.author.get_role(role_id)
-    
     return role
 
 
@@ -86,9 +85,9 @@ async def on_message(message):
 
     
     # if the user is adding the okay word, the bot is gonna think it is a bad word,
-    # so exlude this message of it has the command "!aow" (add okay word)
+    # so exlude this message of it has the command "&aow" (add okay word)
     lower_message = message.content.lower()
-    if is_bad_sentence(lower_message) and lower_message.split()[0] != "!aow":
+    if is_bad_sentence(lower_message) and lower_message.split()[0] != "&aow":
         user_spam = { "author": message.author, "time_stamp": time.time() }
         
         if count_memebers_in_spam(message.author) >= SPAM_LIMIT:
@@ -105,7 +104,7 @@ async def on_message(message):
         users_spam.append(user_spam)
     
         
-        if lower_message.split()[0] not in ["!row", "!rbw"]:
+        if lower_message.split()[0] not in ["&row", "&rbw"]:
             await message.delete()
             await message.channel.send(f"{message.author.mention} hey you cant say that!", delete_after=5)
 
