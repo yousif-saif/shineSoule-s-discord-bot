@@ -1,5 +1,4 @@
 import discord
-from discord import Intents, app_commands, Client
 import discord.context_managers
 from discord.ext import commands
 from dotenv import load_dotenv
