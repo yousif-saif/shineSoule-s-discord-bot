@@ -17,7 +17,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 # Creating a bot instance
-bot = commands.Bot(command_prefix='!', intents=intents)
+bot = commands.Bot(command_prefix="&", intents=intents)
 
 @bot.event
 async def on_ready():
@@ -97,6 +97,7 @@ async def on_message(message):
                 await message.author.timeout(duration, reason="saying bad words")
                 await message.channel.send(f"Timed out {message.author.mention} because they said too many bad/swear words")
 
+
             except:
                 await message.channel.send(f"Cant timeout {message.author.mention} because they have higher role")
 
@@ -158,16 +159,15 @@ def change_words(mode, word):
 
 @bot.command(help="Add okay word")
 async def aow(ctx: commands.Context, word=""):
+    if not await have_correct_role(ctx):
+        return await ctx.send("You dont have the permission to use this command")
+    
+
     if not word: 
         await ctx.send("You need to include a word to add/remove it")
         return
 
     res = change_words("aow", word)
-
-
-    if not await have_correct_role(ctx):
-        return await ctx.send("You dont have the permission to use this command")
-    
 
     if res:
         return await ctx.send(res)
@@ -196,15 +196,14 @@ async def abw(ctx, word=""):
 
 @bot.command(help="Remove okay word")
 async def row(ctx, word=""):
-    if not word: 
+    if not word:
         await ctx.send("You need to include a word to add/remove it")
         return
-
-    res = change_words("row", word)
-
+    
     if not await have_correct_role(ctx):
         return await ctx.send("You dont have the permission to use this command")
-    
+
+    res = change_words("row", word)
 
     if res:
         await ctx.send(res)
@@ -215,15 +214,15 @@ async def row(ctx, word=""):
 
 @bot.command(help="Remove bad word")
 async def rbw(ctx, word=""):
+    if not await have_correct_role(ctx):
+        return await ctx.send("You dont have the permission to use this command")
+    
     if not word: 
         await ctx.send("You need to include a word to add/remove it")
         return
 
     res = change_words("rbw", word)
 
-    if not await have_correct_role(ctx):
-        return await ctx.send("You dont have the permission to use this command")
-    
 
     if res:
         await ctx.send(res)
